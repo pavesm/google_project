@@ -9,6 +9,15 @@ def insertToDict(sentence):
         subs[sentence[:i + 1]].add(allSentences.index(sentence))
         subs[sentence[i:]].add(allSentences.index(sentence))
 
+    length = len(sentence)
+
+    for i in range(length):
+        for j in range(length):
+            if j > length - i:
+               break
+
+            subs[sentence[j:length - i]].add(allSentences.index(sentence))
+
 
 def fiveAutoComplition():
     string = input("The system is ready. Enter your text:")
