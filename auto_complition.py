@@ -1,10 +1,11 @@
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from auto_complete_data import AutoCompleteData
 # from read_from_files import all_sentences
 import string
 
+
 subs = defaultdict(set)
-all_sentences = [("hello big and nice world", "hi.css"), ("hello world", "h.html")]
+all_sentences = ["hello big and nice world", "hello world"]
 
 
 def insert_to_dict(sentence):
@@ -25,10 +26,10 @@ def insert_to_dict(sentence):
 def get_score(sub_string):
     score = defaultdict(set)
     basic_score = len(sub_string) * 2
-    indexes = subs.get(sub_string)
+    indexes = subs[sub_string]
     if indexes:
         score[basic_score] = indexes
-        if indexes >= 5:
+        if len(indexes) >= 5:
             return score
 
     for i in range(len(sub_string)):
@@ -67,18 +68,17 @@ def get_score(sub_string):
 def get_best_k_completions(sub_string):
     score = get_score(sub_string)
     indexes = get_common_sentences(score)
-    auto_complete_data_list = []
-    for index in indexes:
-        completed_sentence = all_sentences[index][0]
-        source_text = all_sentences[index][1]
-        offset = all_sentences[index][0].index(sub_string)
-        auto_complete_data_list.append(AutoCompleteData(completed_sentence, source_text, offset, score))
-
-    return auto_complete_data_list
+    indexes_list = list(indexes)
+    for i in indexes_list:
+        print(all_sentences[i])
 
 
 def get_common_sentences(score):
-    
+    sorted_dict = OrderedDict(sorted(score.items()))
+    for key in sorted_dict.keys():
+        return sorted_dict[key]
+#   five_common_sentences = []
+#   while len(five_common_sentences) < 5:
 
 
 for sentence in all_sentences:
