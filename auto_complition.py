@@ -1,11 +1,10 @@
 from collections import defaultdict, OrderedDict
 from auto_complete_data import AutoCompleteData
-# from read_from_files import all_sentences
+from read_from_files import all_sentences
 import string
 
 
 subs = defaultdict(set)
-all_sentences = ["hello big and nice world", "hello world", "big world", "nice and pretty world", "cute world", "all world"]
 
 
 def insert_to_dict(sentence):
@@ -84,8 +83,6 @@ def get_common_sentences(score):
                 five_common_sentences.append(index)
 
     return five_common_sentences
-
-
 
 
 for sentence in all_sentences:
