@@ -5,7 +5,7 @@ import string
 
 
 subs = defaultdict(set)
-all_sentences = ["hello big and nice world", "hello world"]
+all_sentences = ["hello big and nice world", "hello world", "big world", "nice and pretty world", "cute world", "all world"]
 
 
 def insert_to_dict(sentence):
@@ -33,7 +33,7 @@ def get_score(sub_string):
             return score
 
     for i in range(len(sub_string)):
-        indexes = subs.get(sub_string.replace(sub_string[i], ""))
+        indexes = subs.get(sub_string.replace(sub_string[i], "", 1))
         if indexes:
             if i < 4:
                score[basic_score - (10 - i * 2)] = indexes
@@ -54,7 +54,7 @@ def get_score(sub_string):
 
     for i in range(len(sub_string)):
         for letter in all_alphabet:
-            indexes = subs.get(sub_string.replace(sub_string[i], letter))
+            indexes = subs.get(sub_string.replace(sub_string[i], letter, 1))
             if indexes:
                 if i < 5:
                     score[basic_score - (5 - i)] = indexes
@@ -74,11 +74,18 @@ def get_best_k_completions(sub_string):
 
 
 def get_common_sentences(score):
-    sorted_dict = OrderedDict(sorted(score.items()))
+    sorted_dict = OrderedDict(sorted(score.items(), reverse=True))
+    five_common_sentences = []
+
     for key in sorted_dict.keys():
-        return sorted_dict[key]
-#   five_common_sentences = []
-#   while len(five_common_sentences) < 5:
+        while sorted_dict[key] and len(five_common_sentences) < 5:
+            index = sorted_dict[key].pop()
+            if index not in five_common_sentences:
+                five_common_sentences.append(index)
+
+    return five_common_sentences
+
+
 
 
 for sentence in all_sentences:
