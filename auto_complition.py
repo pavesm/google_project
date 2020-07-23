@@ -29,8 +29,9 @@ def insert_to_dict():
         sentence = all_sentences[i].completed_sentence
         sentence = valid_string(sentence)
         for j in range(len(sentence)):
-            subs[sentence[:j + 1]].add(i)
-            subs[sentence[j:]].add(i)
+            if sentence[j] != " ":
+                subs[sentence[:j + 1]].add(i)
+                subs[sentence[j:]].add(i)
 
         length = len(sentence)
 
@@ -39,7 +40,8 @@ def insert_to_dict():
                 if j > length - k:
                    break
 
-                subs[sentence[j:length - k]].add(i)
+                if sentence[j] != " " and sentence[length - k - 1] != " ":
+                    subs[sentence[j:length - k]].add(i)
 
 
 def get_score(sub_string):

@@ -12,8 +12,9 @@ def read_txt_file():
                     offset = 0
                     sentences = myfile.readlines()
                     for sentsnce in sentences:
-                        offset += 1
-                        all_sentences.append(AutoCompleteData(sentsnce.strip(), os.path.join(root, file), offset))
+                        if sentsnce:
+                            offset += 1
+                            all_sentences.append(AutoCompleteData(sentsnce.strip(), os.path.join(root, file), offset))
 
 
 read_txt_file()
