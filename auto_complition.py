@@ -8,19 +8,20 @@ subs = defaultdict(set)
 
 
 def valid_string(string):
-    string = string.lower()
     i = 0
+
     while i < len(string):
-        if not(string[i].isalpha() or string[i].isdigit()):
-            if string[i] == " ":
+        if not (string[i].isalpha() or string[i].isdigit()):
+            if string[i] == ' ':
                 i += 1
-                while i + 1 < len(string) and string[i] == string[i + 1]:
-                    string = string[i + 1].replace(string[i], "", 1)
+                while i < len(string) and string[i] == ' ':
+                    string = string.replace(string[i], "", 1)
 
             else:
                 string = string.replace(string[i], "", 1)
 
         i += 1
+
     return string.lower()
 
 
@@ -37,7 +38,7 @@ def insert_to_dict():
 
         for k in range(length):
             for j in range(length):
-                if j > length - k:
+                if j > length - i:
                    break
 
                 if sentence[j] != " " and sentence[length - k - 1] != " ":
@@ -110,15 +111,18 @@ def get_common_sentences(score):
 
 
 def five_auto_complete_data():
-    string = input("The system is ready. Enter your text:")
-    string = valid_string(string)
-    auto_complete_data = get_best_k_completions(string)
-    if auto_complete_data:
-        for item in auto_complete_data:
-            print(item.completed_sentence)
+    while True:
+        string = input("The system is ready. Enter your text:")
+        if string == "#":
+            break
+        string = valid_string(string)
+        auto_complete_data = get_best_k_completions(string)
+        if auto_complete_data:
+            for i in range(len(auto_complete_data)):
+                print(f"{i + 1}. {auto_complete_data[i].completed_sentence}")
+                print(f"   {auto_complete_data[i].source_text}")
 
 
 insert_to_dict()
 
-for i in range(20):
-    five_auto_complete_data()
+five_auto_complete_data()
