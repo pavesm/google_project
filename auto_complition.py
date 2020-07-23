@@ -38,7 +38,7 @@ def insert_to_dict():
 
         for k in range(length):
             for j in range(length):
-                if j > length - i:
+                if j > length - k:
                    break
 
                 if sentence[j] != " " and sentence[length - k - 1] != " ":
