@@ -7,21 +7,39 @@ import string
 subs = defaultdict(set)
 
 
+def valid_string(string):
+    string = string.lower()
+    i = 0
+    while i < len(string):
+        if not(string[i].isalpha() or string[i].isdigit()):
+            if string[i] == " ":
+                i += 1
+                while i + 1 < len(string) and string[i] == string[i + 1]:
+                    string = string[i + 1].replace(string[i], "", 1)
+
+            else:
+                string = string.replace(string[i], "", 1)
+
+        i += 1
+    return string.lower()
+
+
 def insert_to_dict():
-    for j in range(len(all_sentences)):
-        sentence = all_sentences[j].completed_sentence
-        for i in range(len(sentence)):
-            subs[sentence[:i + 1]].add(j)
-            subs[sentence[i:]].add(j)
+    for i in range(len(all_sentences)):
+        sentence = all_sentences[i].completed_sentence
+        sentence = valid_string(sentence)
+        for j in range(len(sentence)):
+            subs[sentence[:j + 1]].add(i)
+            subs[sentence[j:]].add(i)
 
         length = len(sentence)
 
-        for i in range(length):
-            for k in range(length):
-                if k > length - i:
+        for k in range(length):
+            for j in range(length):
+                if j > length - k:
                    break
 
-                subs[sentence[k:length - i]].add(j)
+                subs[sentence[j:length - k]].add(i)
 
 
 def get_score(sub_string):
@@ -67,8 +85,7 @@ def get_score(sub_string):
 
 
 def get_best_k_completions(sub_string):
-    score = get_score(sub_string)
-    indexes = get_common_sentences(score)
+    indexes = get_common_sentences(get_score(sub_string))
     auto_complete_data = []
     for i in indexes:
         auto_complete_data.append(all_sentences[i])
@@ -90,8 +107,16 @@ def get_common_sentences(score):
     return five_common_sentences
 
 
+def five_auto_complete_data():
+    string = input("The system is ready. Enter your text:")
+    string = valid_string(string)
+    auto_complete_data = get_best_k_completions(string)
+    if auto_complete_data:
+        for item in auto_complete_data:
+            print(item.completed_sentence)
+
+
 insert_to_dict()
 
-five_common_sentencens = get_best_k_completions(input("The system is ready. Enter your text:"))
-for item in five_common_sentencens:
-    print(item.completed_sentence)
+for i in range(20):
+    five_auto_complete_data()
