@@ -1,5 +1,4 @@
-from os import listdir
-import glob, os
+import os
 from auto_complete_data import AutoCompleteData
 
 all_sentences = []
@@ -14,8 +13,7 @@ def read_txt_file():
                     sentences = myfile.readlines()
                     for sentsnce in sentences:
                         offset += 1
-                        all_sentences.append(AutoCompleteData(sentsnce, os.path.join(root, file), offset))
+                        all_sentences.append(AutoCompleteData(sentsnce.strip(), os.path.join(root, file), offset))
 
 
 read_txt_file()
-print(all_sentences[50].offset)

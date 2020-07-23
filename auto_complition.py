@@ -7,19 +7,21 @@ import string
 subs = defaultdict(set)
 
 
-def insert_to_dict(sentence):
-    for i in range(len(sentence)):
-        subs[sentence[:i + 1]].add(all_sentences.index(sentence))
-        subs[sentence[i:]].add(all_sentences.index(sentence))
+def insert_to_dict():
+    for j in range(len(all_sentences)):
+        sentence = all_sentences[j].completed_sentence
+        for i in range(len(sentence)):
+            subs[sentence[:i + 1]].add(j)
+            subs[sentence[i:]].add(j)
 
-    length = len(sentence)
+        length = len(sentence)
 
-    for i in range(length):
-        for j in range(length):
-            if j > length - i:
-               break
+        for i in range(length):
+            for k in range(length):
+                if k > length - i:
+                   break
 
-            subs[sentence[j:length - i]].add(all_sentences.index(sentence))
+                subs[sentence[k:length - i]].add(j)
 
 
 def get_score(sub_string):
@@ -67,9 +69,11 @@ def get_score(sub_string):
 def get_best_k_completions(sub_string):
     score = get_score(sub_string)
     indexes = get_common_sentences(score)
-    indexes_list = list(indexes)
-    for i in indexes_list:
-        print(all_sentences[i])
+    auto_complete_data = []
+    for i in indexes:
+        auto_complete_data.append(all_sentences[i])
+
+    return auto_complete_data
 
 
 def get_common_sentences(score):
@@ -80,12 +84,14 @@ def get_common_sentences(score):
         while sorted_dict[key] and len(five_common_sentences) < 5:
             index = sorted_dict[key].pop()
             if index not in five_common_sentences:
+                all_sentences[index].score = key
                 five_common_sentences.append(index)
 
     return five_common_sentences
 
 
-for sentence in all_sentences:
-    insert_to_dict(sentence)
+insert_to_dict()
 
-get_best_k_completions(input("The system is ready. Enter your text:"))
+five_common_sentencens = get_best_k_completions(input("The system is ready. Enter your text:"))
+for item in five_common_sentencens:
+    print(item.completed_sentence)
