@@ -146,6 +146,9 @@ def five_auto_complete_data():
             if string == '#':
                 break
 
+        if string == "stop":
+            break
+
 
 insert_to_dict()
 
