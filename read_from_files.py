@@ -14,7 +14,7 @@ def read_txt_file():
                     for sentsnce in sentences:
                         if sentsnce:
                             offset += 1
-                            all_sentences.append(AutoCompleteData(sentsnce.strip(), os.path.join(root, file), offset))
+                            all_sentences.append(AutoCompleteData(sentsnce.strip(), file, offset))
 
 
 read_txt_file()
