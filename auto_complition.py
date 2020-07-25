@@ -1,3 +1,4 @@
+import re
 from collections import defaultdict, OrderedDict
 from read_from_files import all_sentences
 import string
@@ -7,22 +8,8 @@ subs = defaultdict(set)
 
 
 def valid_string(string):
-    i = 0
-
-    while i < len(string):
-        if not (string[i].isalpha() or string[i].isdigit()):
-            if string[i] == ' ':
-                i += 1
-                while i < len(string) and string[i] == ' ':
-                    string = string.replace(string[i], "", 1)
-
-            else:
-                string = string.replace(string[i], "", 1)
-                i -= 1
-
-        i += 1
-
-    return string.lower()
+    string = re.sub(" +", " ", string.lower())
+    return re.sub(r'[^a-z0-9 ]', '', string)
 
 
 def insert_to_dict():
