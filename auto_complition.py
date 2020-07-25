@@ -18,6 +18,7 @@ def valid_string(string):
 
             else:
                 string = string.replace(string[i], "", 1)
+                i -= 1
 
         i += 1
 
@@ -49,10 +50,10 @@ def delete_letter(score, basic_score, sub_string):
         indexes = subs.get(sub_string.replace(sub_string[i], "", 1))
         if indexes:
             if i < 4:
-               score[basic_score - (10 - i * 2)] = indexes
+                score[basic_score - (10 - i * 2)].update(indexes)
 
             else:
-                score[basic_score - 2] = indexes
+                score[basic_score - 2].update(indexes)
 
     return score
 
@@ -64,10 +65,10 @@ def add_letter(score, basic_score, sub_string):
             indexes = subs.get(sub_string[:i] + letter + sub_string[i:])
             if indexes:
                 if i < 4:
-                    score[basic_score - (10 - i * 2)] = indexes
+                    score[basic_score - (10 - i * 2)].update(indexes)
 
                 else:
-                    score[basic_score - 2] = indexes
+                    score[basic_score - 2].update(indexes)
 
     return score
 
@@ -79,10 +80,10 @@ def replace_letter(score, basic_score, sub_string):
             indexes = subs.get(sub_string.replace(sub_string[i], letter, 1))
             if indexes:
                 if i < 5:
-                    score[basic_score - (5 - i)] = indexes
+                    score[basic_score - (5 - i)].update(indexes)
 
                 else:
-                    score[basic_score - 1] = indexes
+                    score[basic_score - 1].update(indexes)
 
     return score
 
